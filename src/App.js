@@ -1,23 +1,49 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react'
+import * as yup from 'yup'
+import { Formik } from 'formik'
+
 
 function App() {
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Formik
+        initialValues={{
+          name: '',
+          secondName: '',
+          password: '',
+          confirmPassword: '',
+          email: '',
+          confirmEmail: ''
+        }}
+        validateOnBlur
+        onSubmit={(values) => { console.log(values) }}
+      >
+        {({ values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) => (
+          <div className={"form"}>
+            <form>
+              <input
+                className={'input'}
+                type={"text"}
+                name={"name"}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+              />
+              {touched.name && errors.name && <p className={"error"}>{'Помилка'}</p>}
+              <br />
+              <button
+                disabled={!isValid && !dirty}
+                onClick={handleSubmit}
+                type={'submit'}>Відправити</button>
+            </form>
+          </div>
+        )}
+      </Formik>
+
     </div>
   );
 }
